@@ -12,7 +12,7 @@ public class LoadScreen : MonoBehaviour {
 
 	public GameObject player, endPoint;
 	private Vector3 closeCorner, farCorner;
-	private float constY = 0f, closeCornerX = 7f;
+	private float constY =  0.5f, closeCornerX = 7f;
 
 	void Start () {
 		closeCorner = new Vector3 (closeCornerX,player.transform.position.y,player.transform.position.z);
@@ -31,7 +31,7 @@ public class LoadScreen : MonoBehaviour {
 	public IEnumerator BuildUnits(){
 		
 		for(int i = 0; i < unitsCount; i++){
-			Vector3 randPosition = new Vector3 (Random.Range (closeCorner.x, farCorner.x), 0.5f, Random.Range (closeCorner.z, farCorner.z));
+			Vector3 randPosition = new Vector3 (Random.Range (closeCorner.x, farCorner.x),constY, Random.Range (closeCorner.z, farCorner.z));
 			Instantiate (createPrefab[Random.Range (0, createPrefab.Length)], randPosition, Quaternion.identity);
 			yield return null;
 		}
