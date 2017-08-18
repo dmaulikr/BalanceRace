@@ -1,0 +1,61 @@
+﻿
+	public float minSwipeDistY;
+	public float minSwipeDistX;
+
+	private bool speedUp = true;
+	private float maxSpeed = 200f, minSpeed = 50f;
+	private Vector2 startPos;
+	private Vector3 startRot = new Vector3 ();
+
+	void Awake(){
+		rb.AddForce (0, 0, 50f * smooth,  ForceMode.VelocityChange );
+		startRot = rb.transform.forward;
+	}
+
+	// I use Fixed Update as I will play with physics
+	void FixedUpdate () {
+
+
+		#if UNITY_ANDROID
+			rb.AddForce (Input.acceleration.x * smooth, 0, 0, ForceMode.VelocityChange);
+//		if(Input.touchCount > 0){
+//			Touch touch = Input.touches[0];
+//
+//			switch(touch.phase){
+//			case TouchPhase.Began:
+//				startPos = touch.position;
+//				break;
+//
+//			case TouchPhase.Ended:
+//				float swipeDistVertical = (new Vector3(0, touch.position.y, 0) - new Vector3(0, startPos.y, 0)).magnitude;
+//				if(swipeDistVertical >minSwipeDistY){
+//					float swipeValue = Mathf.Sign (touch.position.y - startPos.y);
+//					if(swipeValue > 0){
+//						forwardForce+=forwardForceChange;
+//					} else if(forwardForce > 0 && (swipeValue < 0)){
+//						forwardForce-=forwardForceChange;	
+//					}
+//				}
+//				break;
+//			}
+//		}
+
+		#endif
+		}
+
+	public void OnPointerDown(){
+
+		string pressed_button_name = EventSystem.current.currentSelectedGameObject.GetComponent <Button> ().name;
+
+		if (pressed_button_name == gas_btn.name) {
+			forwardForce += forwardForceChange;
+			Debug.Log ("speed up");
+		}
+
+		if (pressed_button_name == break_btn.name){
+			forwardForce -= forwardForceChange * 2f;
+			Debug.Log ("speed down");
+
+		}
+		rb.AddForce (0, 0, forwardForce * Time.deltaTime);
+	}
